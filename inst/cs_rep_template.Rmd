@@ -5,11 +5,6 @@ output:
     self_contained: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
-library(htmltools)
-```
-
 
 ```{r top}
 div(id = "rStudioHeader",
