@@ -7,6 +7,7 @@ output:
 
 
 ```{r top}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
 div(id = "rStudioHeader",
   div(class = "column left", 
     img(src = "https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-All-White.png", style = "height: 30px; width: auto;")    
