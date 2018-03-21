@@ -36,13 +36,13 @@ tag_page <- function(server,
     a
   })
 
-  template <- system.file('cs_rep_template.Rmd', package = "connectApiUtils")
-  out_file <- sprintf('%s.html', tag)
   out_dir <- getwd()
+  template <- copy_template(out_dir)
+  out_file <- sprintf('%s.html', tag)
+
   rmarkdown::render(template,
     output_dir = out_dir,
     output_file = out_file,
-
   )
 
   list(
