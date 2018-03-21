@@ -1,0 +1,58 @@
+.column {
+    float: left;
+    padding: 10px;
+}
+
+
+.thumbnail {
+    display: block;
+    padding: 4px;
+}
+
+.left {
+  width: 25%;
+}
+
+.left-person {
+  width: 40%;
+  padding: 50px;
+}
+
+.right-person {
+  width: 60%;
+  padding: 50px;
+}
+
+.right {
+  width: 75%;
+  overflow-y: scroll;
+}
+
+.row {
+  border-top: 0 solid grey;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.h1 {
+  color: #75aadb;
+}
+
+#rStudioHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    z-index: 100;
+    padding: 0 5%;
+    background-color: #75aadb;
+    box-shadow: 0 3px 15px 0 rgba(0,0,0,.1);
+}
+
+body {
+  font-family: "Source Sans Pro","Helvetica Neue",Helvetica Neue,Helvetica,Arial,sans-serif;
+}

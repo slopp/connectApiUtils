@@ -15,7 +15,7 @@
 tag_page <- function(server,
                      server_key,
                      tag,
-                     description = NULL) {
+                     person) {
 
   client <- Connect$new(server, server_key)
   tag_id <- client$get_tag_id(tag)
@@ -25,10 +25,7 @@ tag_page <- function(server,
     stop(sprintf('No applications found on %s matching tag %s', server, tag))
   }
 
-  if (is.null(description)) {
-    description <- sprintf('Content on %s tagged with %s', server, tag)
-  }
-
+  unlink(normalizePath(sprintf('./%s-screenshots', tag)), recursive = TRUE)
   dir <- dir.create(sprintf('./%s-screenshots', tag))
   if (!dir) {
     stop(sprintf('Error creating directory for screenshots'))
@@ -39,12 +36,13 @@ tag_page <- function(server,
     a
   })
 
-  template <- system.file('tag_page_template.Rmd', package = "connectApiUtils")
+  template <- system.file('cs_rep_template.Rmd', package = "connectApiUtils")
   out_file <- sprintf('%s.html', tag)
   out_dir <- getwd()
   rmarkdown::render(template,
     output_dir = out_dir,
-    output_file = out_file
+    output_file = out_file,
+
   )
 
   list(
@@ -61,6 +59,7 @@ take_screenshot <- function(app, tag, server_key) {
             vwidth = 800,
             vheight = 600,
             cliprect = "viewport",
-            key = server_key)
+            key = server_key,
+            delay = 8)
   fname
 }

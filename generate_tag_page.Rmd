@@ -1,0 +1,78 @@
+---
+output: html_document
+params:
+  rep: 'jonathan'
+  tag: 'R in Finance'
+---
+
+```{r setup}
+library(connectApiUtils)
+library(rsconnect)
+```
+
+```{r data_map}
+get_description <- function(rep) {
+  switch(rep, 
+    'jonathan' = "Jonathan worked in the the world of finance and did graduate work in political economy before joining RStudio.  He has very little free time, but if he had more he would enjoy skiing, SCUBA diving, squash and tennis.",
+    'phil' = "Phil is a Sr. Account Executive in Customer Success at RStudio. His background is in analytical programs and consulting. He has experience at a number of technology and consulting corporations working in data science teams and delivering innovative data products.",
+    'hadrien' = "Hadrien is an avid adventurer who grew up training horses. He now continues to ride on weekends along with trail running and working towards his private pilot’s license. He fell in love with data science and R after college and has worked in various industries including tech and insurance. He is now a member of the customer success team at RStudio."
+  )
+}
+
+
+get_name <- function(rep) {
+  switch(rep, 
+    'jonathan' = 'Jonathan Regenstein',
+    'phil' = 'Phil Bowsher',
+    'hadrien' = 'Hadrien Dykiel',
+  )
+}
+
+get_image <- function(rep) {
+  switch(rep,
+    'jonathan' =  'https://media.licdn.com/dms/image/C5603AQFcVd-kNScX4g/profile-displayphoto-shrink_800_800/0?e=1526828400&v=alpha&t=T3HdHKPJyz_G-Kvk0UDTu1uNQAE-UxAjhrLyUFZv8A4',
+    'phil' = 'https://avatars2.githubusercontent.com/u/18560137?s=460&v=4',
+    'hadrien' = 'https://media.licdn.com/dms/image/C5603AQHncI_pnwCFRA/profile-displayphoto-shrink_800_800/0?e=1526828400&v=alpha&t=pE_0xNwYxn-cUskaGd4z1ZuPKzg9F8vFpkAvtU44yrU'
+  )
+}
+
+get_email <- function(rep) {
+  switch(rep, 
+    'jonathan' =  'jonathan.regenstein@rstudio.com',
+    'phil' = 'phil@rstudio.com',
+    'hadrien' = 'hadrien@rstudio.com'
+  )
+}
+
+get_id <- function(tag) {
+  switch(tag,
+    'R in Pharma' = 108,
+    'R in Finance' = 982,
+    'R in Insurance' = 110
+  )
+}
+```
+
+```{r generate_page}
+person <- list(
+  name = get_name(params$rep),
+  image = get_image(params$rep),
+  description = get_description(params$rep),
+  email = get_email(params$rep)
+)
+
+KEY <- Sys.getenv('SERVER_KEY')
+
+result <- tag_page('http://colorado.rstudio.com/rsc', KEY, params$tag, person)
+
+
+rsconnect::deployApp('.', 
+                     appPrimaryDoc = sprintf('%s.html', params$tag), 
+                     appFiles = c(sprintf('%s.html', params$tag), 
+                                  list.files(sprintf('./%s-screenshots', params$tag), full.names = TRUE)), 
+                     appId = get_id(params$tag), 
+                     account = 'sean',
+                     server = 'colorado.rstudio.com'
+)
+
+```

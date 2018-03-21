@@ -1,0 +1,81 @@
+---
+output: 
+  html_document:
+    css: styles_rep.css
+    self_contained: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
+library(htmltools)
+```
+
+
+```{r top}
+div(id = "rStudioHeader",
+  div(class = "column left", 
+    img(src = "https://www.rstudio.com/wp-content/uploads/2014/07/RStudio-Logo-All-White.png", style = "height: 30px; width: auto;")    
+  )    
+)
+br()
+br()
+div(h1(sprintf("%s with RStudio", tag)))
+```
+
+
+```{r person}
+div(class = "row", 
+   div(class = "column left-person",
+    img(src = person$image)
+   ),
+   div(class = "column right-person",
+    h2(person$name),
+    p(person$description),
+    br(),
+    a(href = sprintf('mailto:%s', person$email), 
+      img(src = 'http://www.rstudio.com/wp-content/uploads/2018/03/bookme.png')
+    )
+   )
+)
+br()
+```
+
+
+```{r rows}
+create_thumbnail <- function(app, width) {
+  div(class = "thumbnail", 
+    a(href = app$url, img(src = app$screenshot, style = sprintf("height: auto; width: %spx;", width))),
+    a(href = app$url, h3(ifelse(is.null(app$title), app$name, app$title)))
+  )
+}
+
+create_thumbnail_grid <- function(apps) {
+  ncol <- floor(sqrt(length(apps)))
+  width_perc <- 100/ncol
+  width_pix <- 2000/ncol
+  nrow <- ncol + 1
+  i <- 1 
+  thumbnails <- tagList()
+  for (r in 1:nrow) {
+    row <- div(class = "row") 
+    for (c in 1:ncol) {
+       row <- tagAppendChild(row, 
+                div(class = "column",
+                    style = sprintf("width: %s%%",width_perc), 
+                    create_thumbnail(apps[[i]], width_pix)
+                )
+       )
+       i <- i + 1
+       if (i > length(apps)) {
+         break
+       }
+    }
+    thumbnails <- tagAppendChild(thumbnails, row)
+  }
+    
+  thumbnails
+  
+}
+
+create_thumbnail_grid(apps)
+```
