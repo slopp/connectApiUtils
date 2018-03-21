@@ -4,7 +4,7 @@
 \alias{tag_page}
 \title{Generate a landing page for a specific RStudio Connect tag}
 \usage{
-tag_page(server, server_key, tag, description = NULL)
+tag_page(server, server_key, tag, person)
 }
 \arguments{
 \item{server}{Url for the Connect server}

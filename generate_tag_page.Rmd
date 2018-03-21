@@ -1,13 +1,17 @@
 ---
 output: html_document
 params:
-  rep: 'jonathan'
-  tag: 'R in Finance'
+  rep: 'phil'
+  tag: 'R in Pharma'
 ---
 
 ```{r setup}
+knitr::opts_chunk$set(echo = FALSE)
 library(connectApiUtils)
 library(rsconnect)
+library(webshot)
+library(rmarkdown)
+library(htmltools)
 ```
 
 ```{r data_map}
@@ -46,9 +50,9 @@ get_email <- function(rep) {
 
 get_id <- function(tag) {
   switch(tag,
-    'R in Pharma' = 108,
+    'R in Pharma' = 992,
     'R in Finance' = 982,
-    'R in Insurance' = 110
+    'R in Insurance' = 989
   )
 }
 ```
@@ -65,14 +69,20 @@ KEY <- Sys.getenv('SERVER_KEY')
 
 result <- tag_page('http://colorado.rstudio.com/rsc', KEY, params$tag, person)
 
+warning(rsconnect::accounts())
 
-rsconnect::deployApp('.', 
+
+warning(rsconnect::deployApp('.', 
                      appPrimaryDoc = sprintf('%s.html', params$tag), 
                      appFiles = c(sprintf('%s.html', params$tag), 
                                   list.files(sprintf('./%s-screenshots', params$tag), full.names = TRUE)), 
                      appId = get_id(params$tag), 
                      account = 'sean',
-                     server = 'colorado.rstudio.com'
-)
+                     server = 'colorado.rstudio.com',
+                     appTitle = params$tag,
+                     launch.browser = FALSE,
+                     logLevel = 'verbose'
+                    
+))
 
 ```
