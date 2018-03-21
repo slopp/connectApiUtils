@@ -57,6 +57,9 @@ create_thumbnail_grid <- function(apps) {
   for (r in 1:nrow) {
     row <- div(class = "row") 
     for (c in 1:ncol) {
+      if (i > length(apps)) {
+         break
+       }
        row <- tagAppendChild(row, 
                 div(class = "column",
                     style = sprintf("width: %s%%",width_perc), 
@@ -64,9 +67,6 @@ create_thumbnail_grid <- function(apps) {
                 )
        )
        i <- i + 1
-       if (i > length(apps)) {
-         break
-       }
     }
     thumbnails <- tagAppendChild(thumbnails, row)
   }
